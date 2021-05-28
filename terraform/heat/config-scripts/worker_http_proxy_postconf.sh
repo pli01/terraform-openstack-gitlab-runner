@@ -14,6 +14,7 @@ echo "## installation des pre-requis"
 apt-get -q update
 apt-get -qy install curl jq tinyproxy
 
+# config
 cp /etc/tinyproxy/tinyproxy.conf /etc/tinyproxy/tinyproxy.conf.orig
 cat <<EOF > /etc/tinyproxy/tinyproxy.conf
 User tinyproxy
@@ -50,5 +51,12 @@ Allow 127.0.0.1
 $(ip add |grep "inet " |awk ' { print "Allow",$2 } ')
 EOF
 service tinyproxy restart
+
+# logrotate
+sed -i -e 's/daily/hourly/g;' \
+    -e 's/reload/restart/g' \
+    -e '/compress/a\
+        size 20M' \
+        /etc/logrotate.d/tinyproxy
 
 echo "## End post installation"
