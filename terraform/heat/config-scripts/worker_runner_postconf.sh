@@ -57,6 +57,7 @@ gitlab-runner register \
   --locked="true" \
   --clone-url="$GITLAB_URL" \
   --executor "docker" \
+  --shell "bash" \
   --docker-image debian:stretch \
   --docker-volumes /var/run/docker.sock:/var/run/docker.sock \
   --pre-clone-script "git config --global http.proxy $http_proxy; git config --global https.proxy $http_proxy ; git config --global http.sslVerify \"false\";" \
